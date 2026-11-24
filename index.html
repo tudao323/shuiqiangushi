@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+  <meta name="theme-color" content="#121426">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="夜读">
+  <meta name="description" content="每晚一篇好故事，温柔女声伴你入眠。">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" href="icons/icon-192.png">
+  <title>夜读 · 每晚一篇好故事</title>
+  <link rel="stylesheet" href="styles.css?v=9">
+</head>
+<body>
+  <div class="sky" aria-hidden="true">
+    <div class="sky-glow"></div>
+    <div class="stars" id="stars"></div>
+    <div class="shooting-star"></div>
+  </div>
+
+  <div class="app" id="app">
+    <!-- ============ 首页 ============ -->
+    <main class="page" id="page-home">
+      <header class="greeting">
+        <div class="greeting-top">
+          <div>
+            <p class="greeting-hello" id="greetingHello">晚上好</p>
+            <p class="greeting-date" id="greetingDate">—</p>
+          </div>
+          <div class="moon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.6 6.6 0 0 0 10.7 10.7z"/></svg>
+          </div>
+        </div>
+        <div class="brand">
+          <span class="brand-mark">夜</span>
+          <div>
+            <h1>夜读</h1>
+            <p>把夜晚，读成一个故事</p>
+          </div>
+        </div>
+      </header>
+
+      <section class="featured" aria-labelledby="featuredLabel">
+        <div class="section-label" id="featuredLabel">
+          <span class="label-dot"></span> 今夜精选 · 为你而选
+        </div>
+        <article class="feature-card" id="featureCard">
+          <div class="feature-cover" id="featureCover"></div>
+          <div class="feature-content">
+            <div class="feature-tags" id="featureTags"></div>
+            <h2 id="featureTitle">—</h2>
+            <p class="feature-quote" id="featureQuote"></p>
+            <p class="feature-summary" id="featureSummary"></p>
+            <div class="feature-actions">
+              <button class="btn btn-primary" id="featureListen">
+                <svg viewBox="0 0 24 24" class="ico"><path d="M8 5v14l11-7z"/></svg>
+                听故事
+              </button>
+              <button class="btn btn-quiet" id="featureRead">读原文 <span>→</span></button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- 睡眠合集 -->
+      <section class="sleep-mixes" aria-labelledby="mixLabel">
+        <div class="section-head">
+          <h2 id="mixLabel">睡眠合集</h2>
+          <span class="count">连续播放 · 温柔女声</span>
+        </div>
+        <div class="mix-grid" id="mixGrid"></div>
+      </section>
+
+      <div class="quick-actions">
+        <button class="quick-btn" id="randomBtn">
+          <span class="quick-ico">
+            <svg viewBox="0 0 24 24"><path d="M17 3h4v4M3 17l6-6M21 3l-7 7M14 14l7 7M3 21h4l13-13"/></svg>
+          </span>
+          <span>随机一篇</span>
+        </button>
+        <button class="quick-btn" id="toFavBtn">
+          <span class="quick-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 11c0 5.5-8 10-8 10z"/></svg>
+          </span>
+          <span>我的收藏</span>
+        </button>
+      </div>
+
+      <section class="library" aria-labelledby="libraryLabel">
+        <div class="section-head">
+          <h2 id="libraryLabel">故事书架</h2>
+          <span class="count" id="libraryCount">—</span>
+        </div>
+        <div class="filter-chips" id="filterChips"></div>
+        <div class="story-list" id="storyList"></div>
+      </section>
+
+      <section class="library books-section" aria-labelledby="booksLabel">
+        <div class="section-head">
+          <h2 id="booksLabel">公共领域有声书</h2>
+          <span class="count" id="booksCount">—</span>
+        </div>
+        <p class="more-audio-desc">道德经、庄子、论语、唐诗、古文等经典原著，公版文本 · 晓晓女声朗读，每篇 12-15 分钟。</p>
+        <div class="story-list" id="booksList"></div>
+      </section>
+
+      <section class="more-audio">
+        <div class="section-head"><h2>更多助眠声音</h2></div>
+        <p class="more-audio-desc">喜马拉雅、懒人听书等平台有海量专业有声书。受版权保护，需在各自官方 App 内收听，这里为你留了快捷入口。</p>
+        <div class="official-links" id="officialLinks"></div>
+      </section>
+
+      <p class="footer-note">今夜有梦 · 好眠 🌙</p>
+    </main>
+
+    <!-- ============ 收藏页 ============ -->
+    <main class="page hidden" id="page-fav">
+      <header class="sub-header">
+        <h1>我的收藏</h1>
+        <p>把喜欢的故事，留到下一个夜晚</p>
+      </header>
+      <div class="story-list" id="favList"></div>
+      <div class="empty-state hidden" id="favEmpty">
+        <div class="empty-ill">
+          <svg viewBox="0 0 64 64"><path d="M32 54s-20-11-20-25a11 11 0 0 1 20-6.5A11 11 0 0 1 52 29c0 14-20 25-20 25z"/></svg>
+        </div>
+        <p>还没有收藏的故事</p>
+        <span>打开一篇故事，点亮右上角的爱心吧</span>
+      </div>
+    </main>
+
+    <!-- ============ 设置页 ============ -->
+    <main class="page hidden" id="page-settings">
+      <header class="sub-header">
+        <button class="back-to-reader hidden" id="backToReader">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> 返回播放
+        </button>
+        <h1>播放与定时</h1>
+        <p>调成你喜欢的样子</p>
+      </header>
+
+      <section class="settings-section">
+        <h3>声音</h3>
+        <div class="voice-card">
+          <div class="voice-card-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7v4a7 7 0 0 0 14 0V9a7 7 0 0 0-7-7zM5 11H3v2a9 9 0 0 0 18 0v-2h-2M12 19v3"/></svg>
+          </div>
+          <div class="voice-card-info">
+            <span class="setting-title">晓晓 · 温暖女声</span>
+            <span class="setting-desc">内置真人感朗读音频，专为小说与入眠调校</span>
+          </div>
+          <span class="voice-card-badge">已内置</span>
+        </div>
+        <div class="setting-row slider-row">
+          <div class="setting-info">
+            <span class="setting-title">播放速度</span>
+            <span class="setting-desc" id="rateValue">1.0 ×</span>
+          </div>
+          <input type="range" id="rateRange" min="0.6" max="1.4" step="0.1" value="1">
+        </div>
+        <div class="setting-row slider-row">
+          <div class="setting-info">
+            <span class="setting-title">音量</span>
+            <span class="setting-desc" id="volumeValue">100%</span>
+          </div>
+          <input type="range" id="volumeRange" min="0" max="1" step="0.05" value="1">
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h3>睡眠定时 · 到点轻停</h3>
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-title">播放多久后自动停止</span>
+            <span class="setting-desc">适合睡前设定，到点温柔停下</span>
+          </div>
+          <select id="sleepSelect" class="select">
+            <option value="0">不开启</option>
+            <option value="10">10 分钟</option>
+            <option value="15">15 分钟</option>
+            <option value="20">20 分钟</option>
+            <option value="30">30 分钟</option>
+            <option value="45">45 分钟</option>
+            <option value="60">60 分钟</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h3>睡前定时任务</h3>
+        <div class="task-card">
+          <div class="task-card-top">
+            <div class="setting-info">
+              <span class="setting-title">每晚自动播放</span>
+              <span class="setting-desc">到点自动开始，伴你入睡</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="taskToggle">
+              <span class="switch-track"></span>
+            </label>
+          </div>
+          <div class="task-card-body">
+            <div class="task-field">
+              <span>开始时间</span>
+              <input type="time" id="taskTime" value="23:00">
+            </div>
+            <div class="task-field">
+              <span>播放内容</span>
+              <select id="taskMix" class="select select-block">
+                <option value="daily">今夜精选</option>
+                <option value="mix15">15 分钟浅眠</option>
+                <option value="mix30">30 分钟深眠</option>
+                <option value="mix60">60 分钟长夜</option>
+              </select>
+            </div>
+          </div>
+          <p class="task-note" id="taskNote">定时任务在 App 打开时生效；关闭后浏览器无法在后台自动发声。</p>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h3>阅读</h3>
+        <div class="setting-row slider-row">
+          <div class="setting-info">
+            <span class="setting-title">字号</span>
+            <span class="setting-desc" id="fontValue">标准</span>
+          </div>
+          <input type="range" id="fontRange" min="16" max="24" step="1" value="19">
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-title">护眼暖光</span>
+            <span class="setting-desc">更柔和的暖色背景</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="warmToggle">
+            <span class="switch-track"></span>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ 播放器（全屏） ============ -->
+    <div class="reader hidden" id="reader">
+      <header class="reader-header">
+        <button class="icon-btn" id="readerBack" aria-label="返回">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="reader-header-title" id="readerTitle">故事</div>
+        <button class="icon-btn" id="readerFav" aria-label="收藏">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 11c0 5.5-8 10-8 10z"/></svg>
+        </button>
+      </header>
+
+      <div class="reader-scroll" id="readerScroll">
+        <div class="player-hero">
+          <div class="reader-cover" id="readerCover"></div>
+          <div class="player-hero-meta" id="readerMeta"></div>
+          <h1 class="reader-h" id="readerH1"></h1>
+          <p class="reader-quote" id="readerQuote"></p>
+        </div>
+
+        <div class="audio-player">
+          <div class="audio-progress-wrap">
+            <span class="time-label" id="curTime">0:00</span>
+            <input type="range" class="audio-seek" id="audioSeek" min="0" max="1000" step="1" value="0">
+            <span class="time-label" id="durTime">0:00</span>
+          </div>
+          <div class="audio-controls">
+            <button class="audio-ctrl" id="prevBtn" aria-label="上一篇">
+              <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM20 6v12l-9-6z"/></svg>
+            </button>
+            <button class="audio-play-big" id="playBtn" aria-label="播放">
+              <svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="ico-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button class="audio-ctrl" id="nextBtn" aria-label="下一篇">
+              <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM4 6v12l9-6z"/></svg>
+            </button>
+          </div>
+          <div class="audio-queue-info" id="queueInfo">单篇播放</div>
+        </div>
+
+        <div class="text-toggle" id="textToggle">
+          <span>读文字</span>
+          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="reader-text hidden" id="readerText">
+          <div class="reader-body" id="readerBody"></div>
+          <p class="reader-end">— 完 —</p>
+        </div>
+        <div class="reader-next">
+          <button class="btn btn-quiet" id="nextStoryBtn">换一篇 <span>→</span></button>
+        </div>
+      </div>
+
+      <div class="player" id="player">
+        <div class="player-progress" id="playerProgress"><div class="player-progress-fill" id="progressFill"></div></div>
+        <div class="player-main">
+          <button class="player-play" id="miniPlayBtn" aria-label="播放">
+            <svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ico-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <div class="player-info">
+            <span class="player-label" id="playerLabel">轻触聆听</span>
+            <span class="player-sub" id="playerSub">晓晓 · 温暖女声</span>
+          </div>
+          <button class="player-tool" id="sleepToggle" aria-label="睡眠定时">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span id="sleepBadge" class="sleep-badge hidden"></span>
+          </button>
+          <button class="player-tool" id="toSettings" aria-label="定时设置">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21h-4v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3v-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3.1V3h4v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1H21v4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="tabbar" id="tabbar">
+      <button class="tab active" data-page="home">
+        <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+        <span>今夜</span>
+      </button>
+      <button class="tab" data-page="fav">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 11c0 5.5-8 10-8 10z"/></svg>
+        <span>收藏</span>
+      </button>
+      <button class="tab" data-page="settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21h-4v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3v-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3.1V3h4v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1H21v4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        <span>定时</span>
+      </button>
+    </nav>
+
+    <div class="toast hidden" id="toast"></div>
+  </div>
+
+  <audio id="audioEl" preload="metadata"></audio>
+
+  <script src="stories.js?v=9"></script>
+  <script src="books.js?v=9"></script>
+  <script src="covers.js?v=9"></script>
+  <script src="app.js?v=9"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
